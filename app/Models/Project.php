@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class Project extends Model
 {
@@ -11,6 +13,8 @@ class Project extends Model
         'description'
      ];
 
+     use HasFactory;
+     
      public function issues(){
         return $this->hasMany(Issue::class);
      }
