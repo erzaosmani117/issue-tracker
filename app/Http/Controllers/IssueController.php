@@ -13,12 +13,27 @@ class IssueController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $issues = Issue::with(['project', 'tags'])->paginate(10);
-        return view('issues.index', compact('issues'));
+    public function index(Request $request)
+  {
+    $query = Issue::with(['project', 'tags']);
 
+    if ($request->status) {
+        $query->where('status', $request->status);
     }
+
+    if ($request->priority) {
+        $query->where('priority', $request->priority);
+    }
+
+    if ($request->tag) {
+        $query->whereHas('tags', fn($q) => $q->where('tags.id', $request->tag));
+    }
+
+    $issues = $query->paginate(10);
+    $tags = Tag::all();
+
+    return view('issues.index', compact('issues', 'tags'));
+  }
 
     /**
      * Show the form for creating a new resource.
@@ -40,9 +55,6 @@ class IssueController extends Controller
         ->with('success', 'Issue created successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Issue $issue)
      {
     $issue->load(['project', 'tags', 'comments']);
@@ -54,11 +66,11 @@ class IssueController extends Controller
      * Show the form for editing the specified resource.
      */
    public function edit(Issue $issue)
-{
+  {
     $projects = Project::all();
     $tags = Tag::all();
     return view('issues.edit', compact('issue', 'projects', 'tags'));
-}
+  }
 
     /**
      * Update the specified resource in storage.
