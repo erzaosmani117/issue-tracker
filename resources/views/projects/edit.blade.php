@@ -5,7 +5,7 @@
 
 
     <h1 class="text-2xl font-bold text-gray-900 mb-6 tracking-tight">
-        Create Project
+        Edit Issue
     </h1>
 
     @if($errors->any())
@@ -20,7 +20,7 @@
 
     <div class="bg-white border border-gray-100 rounded-xl p-6 shadow-sm">
 
-        <form action="{{ route('projects.update', $project }}" method="POST" class="space-y-6">
+       <form action="{{ route('projects.update', $project) }}" method="POST" class="space-y-6">
         @method('PUT')
             @csrf
 
@@ -30,13 +30,13 @@
                 </label>
 
                 <input
-                    type="text"
-                    name="name"
-                    old('name', $project->name)"
-                    placeholder="e.g. HR System"
-                    class="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-gray-900
-                           focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900"
-                >
+    type="text"
+    name="name"
+    value="{{ old('name', $project->name) }}"
+    placeholder="e.g. HR System"
+    class="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-gray-900
+           focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900"
+/>
             </div>
 
             <div>
@@ -50,7 +50,7 @@
                     placeholder="Short description..."
                     class="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-gray-900
                            focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 resize-none"
-                >{{ old('description') }}</textarea>
+                >{{ old('description', $project->description) }}</textarea>
             </div>
 
             <div class="flex items-center justify-between pt-2">

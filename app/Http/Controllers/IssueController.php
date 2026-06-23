@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Issue;
+use App\Models\Tag;
+use App\Models\Project;
 
 class IssueController extends Controller
 {
@@ -20,10 +22,12 @@ class IssueController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        return view('issues.create');
-    }
+   public function create()
+{
+    $projects = Project::all();
+    $tags = Tag::all();
+    return view('issues.create', compact('projects', 'tags'));
+}
 
     /**
      * Store a newly created resource in storage.
@@ -59,10 +63,12 @@ class IssueController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Issue $issue)
-    {
-        return view('issues.edit', compact('issue'));
-    }
+   public function edit(Issue $issue)
+{
+    $projects = Project::all();
+    $tags = Tag::all();
+    return view('issues.edit', compact('issue', 'projects', 'tags'));
+}
 
     /**
      * Update the specified resource in storage.

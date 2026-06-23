@@ -81,14 +81,13 @@
                 No tags assigned.
             </p>
         @endif
-
     </div>
-
     <div>
         <h2 class="text-xl font-bold text-gray-900 mb-4">
             Comments
         </h2>
-        @forelse($issue->comments as $comment)
+       <div id="comments-list">
+    @forelse($issue->comments as $comment)
             <div class="border rounded-xl p-4 mb-3">
                 <div class="flex justify-between items-center mb-2">
                     <p class="font-semibold">
@@ -101,18 +100,29 @@
                 <p class="text-gray-700">
                     {{ $comment->body }}
                 </p>
-
+            </div>
             </div>
 
         @empty
-
             <div class="border rounded-xl p-6 text-center text-gray-500">
                 No comments yet.
             </div>
-
         @endforelse
-
     </div>
+    <div class="mt-6" id="comment-form">
+    <h3 class="text-lg font-semibold mb-3">Add Comment</h3>
+    <input type="hidden" id="issue-id" value="{{ $issue->id }}">
+    <input type="text" id="author-name" placeholder="Your name"
+        class="w-full border rounded-lg px-4 py-2 mb-3">
+    <p class="text-red-500 text-sm hidden" id="author-error"></p>
+    <textarea id="comment-body" rows="3" placeholder="Write a comment..."
+        class="w-full border rounded-lg px-4 py-2 mb-3"></textarea>
+    <p class="text-red-500 text-sm hidden" id="body-error"></p>
+    <button onclick="submitComment()"
+        class="bg-gray-900 text-white px-5 py-2 rounded-lg hover:bg-black">
+        Add Comment
+    </button>
+</div>
 
     <div class="mt-8">
         <a href="{{ route('issues.index') }}"
@@ -122,4 +132,61 @@
     </div>
 
 </div>
+
+
+<script>
+function submitComment() {
+    const issueId = document.getElementById('issue-id').value;
+    const authorName = document.getElementById('author-name').value;
+    const body = document.getElementById('comment-body').value;
+
+    // Reset errors
+    document.getElementById('author-error').classList.add('hidden');
+    document.getElementById('body-error').classList.add('hidden');
+
+    fetch('/comments', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({
+            issue_id: issueId,
+            author_name: authorName,
+            body: body
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.errors) {
+            if (data.errors.author_name) {
+                document.getElementById('author-error').textContent = data.errors.author_name[0];
+                document.getElementById('author-error').classList.remove('hidden');
+            }
+            if (data.errors.body) {
+                document.getElementById('body-error').textContent = data.errors.body[0];
+                document.getElementById('body-error').classList.remove('hidden');
+            }
+            return;
+        }
+
+        // Prepend comment në listë
+        const list = document.getElementById('comments-list');
+        const div = document.createElement('div');
+        div.className = 'border rounded-xl p-4 mb-3';
+        div.innerHTML = `
+            <div class="flex justify-between items-center mb-2">
+                <p class="font-semibold">${data.author_name}</p>
+                <p class="text-sm text-gray-500">${data.created_at}</p>
+            </div>
+            <p class="text-gray-700">${data.body}</p>
+        `;
+        list.prepend(div);
+
+        // Clear forma
+        document.getElementById('author-name').value = '';
+        document.getElementById('comment-body').value = '';
+    });
+}
+</script>
 @endsection
