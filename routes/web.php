@@ -7,7 +7,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\CommentController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('projects.index');
 });
 Route::resource('projects', ProjectController::class);
 Route::resource('issues', IssueController::class);
