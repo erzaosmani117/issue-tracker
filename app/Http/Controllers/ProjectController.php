@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreProjectRequest;
 
 class ProjectController extends Controller
 {
@@ -26,19 +27,11 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $request->validate([
-        'name' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'start_date' => 'nullable|date',
-        'deadline' => 'nullable|date',
-    ]);
-
+   public function store(StoreProjectRequest $request)
+   {
     Project::create($request->all());
+    return redirect()->route('projects.index')->with('success', 'Project created successfully');
 
-    return redirect()->route('projects.index')
-        ->with('success', 'Project created successfully');
     }
 
     /**

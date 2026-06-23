@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Requests\StoreCommentRequest;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 
@@ -28,21 +28,15 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCommentRequest $request)
 {
-    $validated = $request->validate([
-        'issue_id' => 'required|exists:issues,id',
-        'author_name' => 'required|string|max:100',
-        'body' => 'required|string',
-    ]);
-
-    $comment = Comment::create($validated);
-
-    return response()->json([
-        'author_name' => $comment->author_name,
-        'body' => $comment->body,
-        'created_at' => $comment->created_at->format('d M Y H:i'),
-    ]);
+    
+  $comment = Comment::create($request->all());
+return response()->json([
+    'author_name' => $comment->author_name,
+    'body' => $comment->body,
+    'created_at' => $comment->created_at->format('d M Y H:i'),
+]);
 }
 
     /**

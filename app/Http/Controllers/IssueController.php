@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Issue;
 use App\Models\Tag;
 use App\Models\Project;
+use App\Http\Requests\StoreIssueRequest;
 
 class IssueController extends Controller
 {
@@ -32,17 +33,8 @@ class IssueController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreIssueRequest $request)
     {
-        $request->validate([
-             'project_id' => 'required|exists:projects,id',
-             'title' => 'required|string|max:100',
-             'description' => 'required|string',
-             'status' => 'required|in:open,in_progress,closed',
-             'priority' => 'required|in:low,medium,high',
-             'due_date' => 'nullable|date',
-        ]);
-
         Issue::create($request->all());
         return redirect()->route('issues.index')
         ->with('success', 'Issue created successfully');
