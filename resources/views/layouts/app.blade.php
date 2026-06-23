@@ -13,6 +13,7 @@
             <div>
                 <a href="{{ route('projects.index') }}" class="btn btn-outline-light btn-sm me-2">Projects</a>
                 <a href="{{ route('tags.index') }}" class="btn btn-outline-light btn-sm">Tags</a>
+                <a href="{{ route('issues.index') }}" class="btn btn-outline-light btn-sm">Issues</a>
             </div>
         </div>
     </nav>
