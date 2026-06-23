@@ -29,19 +29,21 @@ class CommentController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $request->validate([
+{
+    $validated = $request->validate([
         'issue_id' => 'required|exists:issues,id',
         'author_name' => 'required|string|max:100',
         'body' => 'required|string',
     ]);
 
-    Comment::create($request->all());
+    $comment = Comment::create($validated);
 
-    return redirect()
-        ->back()
-        ->with('success', 'Comment added successfully');
-    }
+    return response()->json([
+        'author_name' => $comment->author_name,
+        'body' => $comment->body,
+        'created_at' => $comment->created_at->format('d M Y H:i'),
+    ]);
+}
 
     /**
      * Display the specified resource.

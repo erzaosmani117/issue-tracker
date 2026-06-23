@@ -140,7 +140,6 @@ function submitComment() {
     const authorName = document.getElementById('author-name').value;
     const body = document.getElementById('comment-body').value;
 
-    // Reset errors
     document.getElementById('author-error').classList.add('hidden');
     document.getElementById('body-error').classList.add('hidden');
 
@@ -170,7 +169,6 @@ function submitComment() {
             return;
         }
 
-        // Prepend comment në listë
         const list = document.getElementById('comments-list');
         const div = document.createElement('div');
         div.className = 'border rounded-xl p-4 mb-3';
