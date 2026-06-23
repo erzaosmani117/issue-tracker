@@ -76,12 +76,36 @@
 @endforeach
             </div>
         @else
-
             <p class="text-gray-500">
                 No tags assigned.
             </p>
         @endif
     </div>
+    <div class="flex gap-2 mt-4">
+    <select id="tag-select" class="border rounded-lg px-3 py-1 text-sm">
+        <option value="">Select tag...</option>
+        @foreach($tags as $tag)
+            <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+        @endforeach
+    </select>
+   <button data-issue="{{ $issue->id }}" onclick="attachTag(this.dataset.issue)"
+   
+        class="bg-gray-900 text-white px-4 py-1 rounded-lg text-sm">
+        Attach
+    </button>
+</div>
+<div id="tags-list" class="flex flex-wrap gap-2 mt-3">
+    @foreach($issue->tags as $tag)
+        <span class="px-3 py-1 rounded-full text-sm font-medium border border-gray-300 bg-gray-50 flex items-center gap-1" 
+      id="tag-{{ $tag->id }}"
+      data-issue="{{ $issue->id }}">
+    {{ $tag->name }}
+    <button onclick="detachTag(this.closest('span').dataset.issue, this.dataset.tag)" 
+            data-tag="{{ $tag->id }}" 
+            class="text-red-400 hover:text-red-600 ml-1">✕</button>
+</span>
+    @endforeach
+</div>
     <div>
         <h2 class="text-xl font-bold text-gray-900 mb-4">
             Comments
@@ -184,6 +208,45 @@ function submitComment() {
         // Clear forma
         document.getElementById('author-name').value = '';
         document.getElementById('comment-body').value = '';
+    });
+}
+
+
+function attachTag(issueId) {
+    const tagId = document.getElementById('tag-select').value;
+    if (!tagId) return;
+
+    fetch(`/issues/${issueId}/tags/${tagId}/attach`, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            const list = document.getElementById('tags-list');
+            const span = document.createElement('span');
+            span.id = `tag-${data.tag.id}`;
+            span.className = 'px-3 py-1 rounded-full text-sm font-medium border border-gray-300 bg-gray-50 flex items-center gap-1';
+            span.innerHTML = `${data.tag.name} <button onclick="detachTag(${issueId}, ${data.tag.id})" class="text-red-400 hover:text-red-600 ml-1">✕</button>`;
+            list.appendChild(span);
+        }
+    });
+}
+
+function detachTag(issueId, tagId) {
+    fetch(`/issues/${issueId}/tags/${tagId}/detach`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById(`tag-${tagId}`).remove();
+        }
     });
 }
 </script>

@@ -52,13 +52,11 @@ class IssueController extends Controller
      * Display the specified resource.
      */
     public function show(Issue $issue)
-      {
+     {
     $issue->load(['project', 'tags', 'comments']);
-
-    return view('issues.show', compact('issue'));
-        }
-
-
+    $tags = Tag::all();
+    return view('issues.show', compact('issue', 'tags'));
+   }
 
     /**
      * Show the form for editing the specified resource.
@@ -99,4 +97,16 @@ class IssueController extends Controller
         return redirect()->route('issues.index')->
         with('success', 'Issue deleted successfully');
     }
+
+    public function attachTag(Issue $issue, Tag $tag)
+{
+    $issue->tags()->syncWithoutDetaching([$tag->id]);
+    return response()->json(['success' => true, 'tag' => $tag]);
+}
+
+public function detachTag(Issue $issue, Tag $tag)
+{
+    $issue->tags()->detach($tag->id);
+    return response()->json(['success' => true]);
+}
 }

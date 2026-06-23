@@ -13,3 +13,5 @@ Route::resource('projects', ProjectController::class);
 Route::resource('issues', IssueController::class);
 Route::resource('tags', TagController::class);
 Route::resource('comments', CommentController::class);
+Route::post('/issues/{issue}/tags/{tag}/attach', [IssueController::class, 'attachTag']);
+Route::delete('/issues/{issue}/tags/{tag}/detach', [IssueController::class, 'detachTag']);
