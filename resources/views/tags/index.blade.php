@@ -36,22 +36,30 @@
         <div class="flex flex-wrap gap-3">
            @foreach($tags as $tag)
     <div class="inline-flex items-center gap-2 bg-white border border-slate-200 hover:border-slate-300 hover:shadow-sm rounded-full px-4 py-2 shadow-sm transition-all duration-200">
-        <span class="w-2.5 h-2.5 rounded-full shrink-0 bg-slate-400"></span>
 
-                    <span class="text-sm font-medium text-slate-700">{{ $tag->name }}</span>
+        <span class="w-2.5 h-2.5 rounded-full shrink-0"
+              @style(['background-color: ' . $tag->color])></span>
 
-                    <form action="{{ route('tags.destroy', $tag) }}" method="POST" onsubmit="return confirm('Delete tag?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                                class="text-slate-300 hover:text-red-500 transition-colors ml-0.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                            </svg>
-                        </button>
-                    </form>
-                </div>
-            @endforeach
+        <span class="text-sm font-medium text-slate-700">
+            {{ $tag->name }}
+        </span>
+
+        <form action="{{ route('tags.destroy', $tag) }}" method="POST"
+              onsubmit="return confirm('Delete tag?')">
+            @csrf
+            @method('DELETE')
+
+            <button type="submit"
+                    class="text-slate-300 hover:text-red-500 transition-colors ml-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </form>
+
+    </div>
+@endforeach
         </div>
     @endif
 
