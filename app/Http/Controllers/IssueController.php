@@ -53,6 +53,9 @@ class IssueController extends Controller
 
     return view('issues.show', compact('issue'));
         }
+
+
+
     /**
      * Show the form for editing the specified resource.
      */
