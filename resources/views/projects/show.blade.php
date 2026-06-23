@@ -2,8 +2,6 @@
 
 @section('content')
 <div class="max-w-5xl mx-auto px-6 py-10">
-
-   
     <div class="flex items-start justify-between mb-8">
         <div>
             <a href="{{ route('projects.index') }}"
@@ -42,7 +40,6 @@
         </div>
     </div>
 
-    
     <div class="grid grid-cols-3 gap-4 mb-10">
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
             <p class="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">Total Issues</p>
@@ -73,7 +70,6 @@
         </a>
     </div>
 
-    
     <div class="space-y-3">
         @forelse($project->issues as $issue)
         <div class="bg-white rounded-xl border border-slate-200 hover:border-blue-300 hover:shadow-sm transition-all duration-200 p-5">

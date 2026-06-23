@@ -42,9 +42,8 @@
                     value="{{ old('title') }}"
                     placeholder="e.g. Login page bug"
                     class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400
-                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                >
-            </div>
+                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                  </div>
 
             <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-1.5">Description</label>
@@ -53,8 +52,7 @@
                     rows="4"
                     placeholder="Describe the issue..."
                     class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400
-                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition resize-none"
-                >{{ old('description') }}</textarea>
+                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition resize-none">{{ old('description') }}</textarea>
             </div>
 
             <div>
@@ -62,8 +60,7 @@
                 <select
                     name="project_id"
                     class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm text-slate-900
-                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                >
+                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                     <option value="">Select project</option>
                     @foreach($projects as $project)
                         <option value="{{ $project->id }}" {{ old('project_id') == $project->id ? 'selected' : '' }}>

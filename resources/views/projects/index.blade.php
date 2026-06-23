@@ -3,7 +3,6 @@
 @section('content')
 <div class="max-w-6xl mx-auto px-6 py-10">
 
-    {{-- Header --}}
     <div class="flex items-center justify-between mb-8">
         <div>
             <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Projects</h1>
@@ -19,13 +18,12 @@
         </a>
     </div>
 
-    {{-- Grid --}}
+   
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
         @foreach($projects as $project)
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 p-6 flex flex-col">
 
-            {{-- Title + badge --}}
             <div class="flex items-start justify-between gap-3 mb-2">
                 <a href="{{ route('projects.show', $project) }}"
                    class="text-base font-semibold text-slate-900 hover:text-blue-600 leading-snug transition-colors">
@@ -38,13 +36,11 @@
                 </span>
                 @endif
             </div>
-
-            {{-- Description --}}
+ 
             <p class="text-slate-500 text-sm leading-relaxed mb-6 flex-1">
                 {{ Str::limit($project->description, 120) }}
             </p>
-
-            {{-- Footer --}}
+            
             <div class="flex items-center justify-between pt-4 border-t border-slate-100">
 
                 <a href="{{ route('projects.edit', $project) }}"
@@ -73,7 +69,6 @@
         </div>
         @endforeach
 
-        {{-- Empty state --}}
         @if($projects->isEmpty())
         <div class="col-span-full flex flex-col items-center justify-center py-20 border border-dashed border-slate-200 rounded-xl text-center">
             <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-4">

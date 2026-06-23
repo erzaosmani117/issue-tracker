@@ -45,8 +45,7 @@
                     value="{{ old('name', $project->name) }}"
                     placeholder="e.g. HR System"
                     class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400
-                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                />
+                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
             </div>
 
             <div>
