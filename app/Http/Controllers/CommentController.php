@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 use App\Http\Requests\StoreCommentRequest;
 use Illuminate\Http\Request;
@@ -10,12 +9,14 @@ class CommentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-         $comments = Comment::with('issue')->paginate(10);
+    public function index(Request $request)
+   {
+    $comments = Comment::where('issue_id', $request->issue_id)
+        ->orderBy('created_at', 'desc')
+        ->paginate(5);
 
-         return view('comments.index', compact('comments'));
-    }
+    return response()->json($comments);
+   }
 
     /**
      * Show the form for creating a new resource.
@@ -28,15 +29,14 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCommentRequest $request)
+public function store(StoreCommentRequest $request)
 {
-    
-  $comment = Comment::create($request->all());
-return response()->json([
-    'author_name' => $comment->author_name,
-    'body' => $comment->body,
-    'created_at' => $comment->created_at->format('d M Y H:i'),
-]);
+    $comment = Comment::create($request->all());
+    return response()->json([
+        'author_name' => $comment->author_name,
+        'body' => $comment->body,
+        'created_at' => $comment->created_at->format('d M Y H:i'),
+    ]);
 }
 
     /**

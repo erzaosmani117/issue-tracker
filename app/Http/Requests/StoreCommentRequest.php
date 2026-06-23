@@ -28,4 +28,11 @@ class StoreCommentRequest extends FormRequest
         'body' => 'required|string',
         ];
     }
+
+    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+{
+    throw new \Illuminate\Validation\ValidationException($validator, 
+        response()->json(['errors' => $validator->errors()], 422)
+    );
+}
 }
